@@ -104,8 +104,58 @@ db.employee.find({
          }
   }).sort({age: -1})[0].age
 })
-
-   
-
+------------------------------------
+db.category.insert([
+  {
+    categoryName: 'Electronics',
+    catId: 1
+  },
+  {
+    categoryName: 'Cosmatics',
+    catId: 2
+  },
+  {
+    categoryName: 'Garments',
+    catId: 3
+  },
+  {
+    categoryName: 'Other',
+    catId: 4
+  }
+]);
+db.product.insert([
+  {
+    name: 'Laptop',
+    price: 70000,
+    categoryId: 1
+  },
+  {
+    name: 'Vasline',
+    price: 80,
+    categoryId: 2
+  },
+  {
+    name: "Men's Jeans",
+    price: 4000,
+    categoryId: 3
+  },
+  {
+    name: 'Chair',
+    price: 2000,
+    categoryId: 4
+  }
+])   
+db.product.aggregate([
+  {
+    $lookup:{
+      from: 'category',
+      localField: 'categoryId',
+      foreignField: 'catId',
+      as: 'categoryDetails'
+    }
+  },{
+      $match: {price:{$gt:5000}}
+    }
+])
 
 
